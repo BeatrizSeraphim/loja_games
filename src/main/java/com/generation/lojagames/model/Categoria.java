@@ -12,7 +12,7 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
-import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 
 @Entity
@@ -20,17 +20,16 @@ import jakarta.validation.constraints.Size;
 public class Categoria {
 	
 	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY )
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	
-	@NotBlank(message = "O Atributo Tipo é OBRIGATÓRIO!")
-	@Size(min = 5, max = 100, message = "O atributo título deve ter no mínimo 5 e no máximo 100 cacteres.")
+	@NotNull(message = "Tipo é obrigatório!")
+	@Size(min = 5)
 	private String tipo;
 	
-	@OneToMany(fetch = FetchType.LAZY, mappedBy = "categoria", cascade = CascadeType.REMOVE)
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "categoria", cascade = CascadeType.ALL)
 	@JsonIgnoreProperties("categoria")
 	private List<Produto> produto;
-
 
 	public Long getId() {
 		return id;
@@ -55,7 +54,6 @@ public class Categoria {
 	public void setProduto(List<Produto> produto) {
 		this.produto = produto;
 	}
-	
 	
 	
 }
